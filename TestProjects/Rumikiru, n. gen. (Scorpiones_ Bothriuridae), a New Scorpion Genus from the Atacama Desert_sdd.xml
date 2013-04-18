@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Datasets xsi:schemaLocation="http://ns.tdwg.org/UBIF/2006/ 
+  http://www.lucidcentral.org/2006/SDD/SDD1.1-RC1/SDD.xsd" 
+  xmlns="http://ns.tdwg.org/UBIF/2006" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  	<TechnicalMetadata created="2013-01-27T21:15:09-05:00">
+  		<Generator name="Morphobank v3"/>
+  		<TechnicalContact label="support" name="MorphoBank Support" email="support@morphobank.org"/>
+  	</TechnicalMetadata>
+<Dataset xml:lang="en-us" id="P714">
+	<Representation>
+		<Label xml:lang="en">Rumikiru, n. gen. (Scorpiones: Bothriuridae), a New Scorpion Genus from the Atacama Desert</Label>
+		<Detail xml:lang="en" role="description">Rumikiru, n. gen., a new bothriurid scorpion genus from the coastal Atacama Desert, Chile, is described. This is the first scorpion genus endemic to northern Chile. It is most closely related to Pachakutej Ochoa, 2004, from the inter-Andean valleys of Peru. Orobothriurus lourencoi Ojanguren-Affilastro, 2003, is transferred to the new genus and redescribed, creating Rumikiru lourencoi (Ojanguren-Affilastro, 2003), n. comb., and a second species of the genus, Rumikiru atacama, n. sp., is described.</Detail>
+		<Detail xml:lang="en" role="created_on">2012-04-17T17:05:13-04:00</Detail>
+		<Detail xml:lang="en" role="published">YES</Detail>
+		<Detail xml:lang="en" role="journal_title">American Museum Novitates</Detail>
+		<Detail xml:lang="en" role="journal_url">http://www.bioone.org/doi/abs/10.1206/3731.2</Detail>
+		<Detail xml:lang="en" role="journal_number">3731</Detail>
+		<Detail xml:lang="en" role="journal_year">2012</Detail>
+		<Detail xml:lang="en" role="article_authors">Ojanguren-Affilastro, A. A., C. I. Mattoni, J. A. Ochoa, and L. Prendini</Detail>
+		<Detail xml:lang="en" role="article_title">Rumikiru, n. gen. (Scorpiones: Bothriuridae), a New Scorpion Genus from the Atacama Desert</Detail>
+		<Detail xml:lang="en" role="article_pp">1-43</Detail>
+	</Representation>
+	<TaxonNames>
+		<TaxonName id='t142735'><Label><Text></Text></Label></TaxonName>
+		<TaxonName id='t142736'><Label><Text></Text></Label></TaxonName>
+	</TaxonNames>
+	<MediaObjects>
+		<MediaObject id='m107354'><Representation><Label>Rumikiru atacama (AMNH)</Label></Representation><Type>image/jpeg</Type><Data href="file:/media/M107354_"/></MediaObject>
+		<MediaObject id='m107355'><Representation><Label>Rumikiru lourencoi (AMNH)</Label></Representation><Type>image/jpeg</Type><Data href="file:/media/M107355_"/></MediaObject>
+	</MediaObjects>
+	<Specimens>
+		<Specimen id='s17185'><Representation><Label>AMNH</Label><Detail xml:lang="en" role="description">male, Pan de Azucar, Chile</Detail><MediaObject ref='m107354'/></Representation><TaxonName ref='t142736'/></Specimen>
+	</Specimens>
+</Dataset>
+</Datasets>
