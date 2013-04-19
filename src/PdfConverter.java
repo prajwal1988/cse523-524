@@ -28,6 +28,10 @@ public class PdfConverter extends javax.swing.JDialog {
     /**
      * Creates new form PdfConverter
      */
+	
+	private String DIRECTORY = "";
+	private String FILE = "";
+	
     public PdfConverter(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         
@@ -164,22 +168,45 @@ public class PdfConverter extends javax.swing.JDialog {
     PdfParser pdfParser ;
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            // TODO add your handling code here:
-            
-            FileDialog  dialog = new FileDialog(this, "Load Pdf");
-            dialog.show();
-            jTextField1.setText(dialog.getFile());
-            
-            String fileName = dialog.getDirectory() + "//" + dialog.getFile();
-            ///Get the no of pages in the pdf file
-            pdfParser = new PdfParser(fileName);
-            jTextField2.setText("1");
-            jTextField3.setText( "" + pdfParser.getNoOfPages());
-        } catch (IOException ex) {
-            Logger.getLogger(PdfConverter.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+    	if (FILE != "" && DIRECTORY != "") 
+    	{
+    		jTextField1.setText(FILE);
+            
+            String fileName = DIRECTORY + "//" + FILE;
+            ///Get the no of pages in the pdf file
+            try {
+				pdfParser = new PdfParser(fileName);
+				jTextField2.setText("1");
+	            jTextField3.setText( "" + pdfParser.getNoOfPages());
+	            
+	            FILE = "";
+	            DIRECTORY = "";
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+    	else
+    	{
+	    	
+	    	try {
+	            // TODO add your handling code here: 	
+	            
+	            FileDialog  dialog = new FileDialog(this, "Load Pdf");
+	            dialog.show();
+	            jTextField1.setText(dialog.getFile());
+	            
+	            String fileName = dialog.getDirectory() + "//" + dialog.getFile();
+	            ///Get the no of pages in the pdf file
+	            pdfParser = new PdfParser(fileName);
+	            jTextField2.setText("1");
+	            jTextField3.setText( "" + pdfParser.getNoOfPages());
+	        } catch (IOException ex) {
+	            Logger.getLogger(PdfConverter.class.getName()).log(Level.SEVERE, null, ex);
+	        }
+    	}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -266,6 +293,22 @@ public class PdfConverter extends javax.swing.JDialog {
                     this, WindowEvent.WINDOW_CLOSING));  
         
     }//GEN-LAST:event_jButton4ActionPerformed
+    
+    private void simulateFileLoad (java.awt.event.ActionEvent evt) 
+    {
+    	jButton1ActionPerformed(evt);
+    }
+    
+    public void setFileName(String Directory, String filename, java.awt.event.ActionEvent evt)
+    {
+    	if (Directory != null && filename != null) {
+    		DIRECTORY = Directory;
+    		FILE = filename;
+    		simulateFileLoad(evt);
+    	}
+    	
+        
+    }
 
     /**
      * @param args the command line arguments

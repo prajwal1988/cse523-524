@@ -3,8 +3,12 @@ import nexus.NexusGen;
 import com.itextpdf.text.pdf.parser.Matrix;
 import java.awt.Color;
 import java.awt.FileDialog;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.Visibility;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -15,7 +19,11 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
@@ -73,6 +81,8 @@ public class SampleJForm extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        
+        jMenuBar1.setVisible(false);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MorphoBank");
@@ -80,7 +90,9 @@ public class SampleJForm extends javax.swing.JFrame {
         jButton6.setText("Load");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                //jButton6ActionPerformed(evt);
+            	
+            	jMenuItem1ActionPerformed(evt);
             }
         });
 
@@ -529,30 +541,89 @@ public class SampleJForm extends javax.swing.JFrame {
     };
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
-        String parsedText = null ;
-        PdfConverter pdf = new PdfConverter(this, rootPaneCheckingEnabled);
-      
-        pdf.SetParent(this);
-        // add a window listener
-        pdf.addWindowListener(new MyAdapter(this)
-        {
-        public void windowClosed(WindowEvent e)
-        {
-           System.out.println("jdialog window closed");
-           if(form != null && form.GetParsedText() != null  )
-           {
-               // Handle Window Closed event here
-               
-           }
-        }
+    	 FileDialog fileDlg = new FileDialog(this,"Select the file");
+         fileDlg.show();
+         
+         String currFileext = fileDlg.getFile();
+         if (currFileext != null)
+         {
+        	 String []token = currFileext.split("\\.");
+        	 System.out.println(token[token.length -1]);
+         
+        	 currFileext = token[token.length -1];
+        	 
+        	 if (currFileext.equalsIgnoreCase("pdf"))
+        	 {
+         
+	        	 //String fileName = fileDlg.getDirectory()+"//" + fileDlg.getFile();
+	         
+	         
+	        	 //System.out.print(fileName);
+	        	 String parsedText = null ;
+	        	 PdfConverter pdf = new PdfConverter(this, rootPaneCheckingEnabled);
+	      
+	        	 pdf.SetParent(this);
+	        	 
+	        	 // add a window listener
+	        	 pdf.addWindowListener(new MyAdapter(this)
+	        	 {
+	        		 public void windowClosed(WindowEvent e)
+	        		 {
+	        			 System.out.println("jdialog window closed");
+	        			 if(form != null && form.GetParsedText() != null  )
+	        			 {
+	        				 // Handle Window Closed event here
+	               
+	        			 }
+	        		 }
+	
+	        		 public void windowClosing(WindowEvent e)
+	        		 {
+	        			 System.out.println("jdialog window closing");
+	        		 }
+	        	 });
+	        	 
+	        	 pdf.setFileName(fileDlg.getDirectory(), fileDlg.getFile(), evt);
+	        	 pdf.show();
+	         }
+        	 
+        	 else if (currFileext.equalsIgnoreCase("doc") || currFileext.equalsIgnoreCase("docx") )
+        	 {
+        		 WordConverter word = new WordConverter(this, rootPaneCheckingEnabled);
+        		 word.setFileName(fileDlg.getFile(), fileDlg.getDirectory(), evt);
+        	     word.show();
+        	 }
+        	 
+        	 else 
+        	 {
+        		 int optionType = JOptionPane.OK_OPTION;
+        		 int messageType = JOptionPane.PLAIN_MESSAGE; // no standard icon
 
-        public void windowClosing(WindowEvent e)
-        {
-            System.out.println("jdialog window closing");
-        }
-        });
-        pdf.show();
+        		 final JButton ok = new JButton("ok");
+        		 ok.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Window w = SwingUtilities.getWindowAncestor(ok);
+
+					    if (w != null) {
+					      w.setVisible(false);
+					    }
+						
+					}
+				});
+        		 
+        		 
+        		 Object[] selValues = { ok };
+
+        		 //show dialog as normal, selected index will be returned.
+        		 int res = JOptionPane.showOptionDialog(null, "This File format is not supported yet !",
+        		         "Invalid File Format", optionType, messageType, null, selValues,
+        		         selValues[0]);  
+        		 
+        		 
+        	 }
+       }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private NexusGen block;
@@ -646,6 +717,7 @@ public class SampleJForm extends javax.swing.JFrame {
    	 		setCharacterAndStates(charAndStates);
 
                Vector<String> matchedChars = new Vector<String>();
+               ArrayList <String> highlightChars = new ArrayList<String>();
                Vector<String> matchedStates = new Vector<String>();
                
                String extractedData = "";
@@ -656,6 +728,9 @@ public class SampleJForm extends javax.swing.JFrame {
                	matchedChars.add(charAndStates.elementAt(i).character);
                	//System.out.println("****Character is"+charAndStates.elementAt(i).character+"*******");
                	extractedData += ( i + "." + charAndStates.elementAt(i).character + "\n");
+               	String []tokens  = matchedChars.elementAt(i).split("\\d\\.\\s");
+               	if (tokens[1] != null)
+               		highlightChars.add(tokens[1].toString());
 
                	Vector<String> st = charAndStates.elementAt(i).states;
                	for(int j=0;j<st.size();j++)
@@ -667,31 +742,52 @@ public class SampleJForm extends javax.swing.JFrame {
                	extractedData += "\n";
                }
                jTextArea3.setText(extractedData);
+               jTextArea3.setEditable(true);
+               
+               for (int i = 0; i< highlightChars.size();i++)
+               {
+            	   int startpos = 0 ;
+                   
+            	   String matchingChar = highlightChars.get(i);
+            	   startpos = jTextArea1.getText().indexOf(matchingChar);
+                   
+                   
+                   if( startpos>=0 )
+                   {
+                       Highlighter hilite = jTextArea1.getHighlighter();
+                       Highlighter.HighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
+                       try {
+                    	   hilite.addHighlight(startpos, startpos+highlightChars.get(i).length(), p);
+                       } catch (BadLocationException ex) {
+                    	   Logger.getLogger(SampleJForm.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                   }
+                   
+               }
                
                /* Highlight text areas into yellow and green based on character/state */
-               for(int  i = 0 ;i< matchedChars.size();i++)
+             /*  for(int  i = 0 ;i< matchedChars.size();i++)
                {
                    int startpos = 0 ;
                    while(true)
                    {
                        startpos = jTextArea1.getText().indexOf(matchedChars.elementAt(i),startpos+1);
                    
-                       if( startpos>=0 )
-                       {
-                           Highlighter hilite = jTextArea1.getHighlighter();
-                           Highlighter.HighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
-                           try {
-                    	       		hilite.addHighlight(startpos, startpos+matchedChars.elementAt(i).length(), p);
-                       	   }
-                           catch (BadLocationException ex) {
-                                Logger.getLogger(SampleJForm.class.getName()).log(Level.SEVERE, null, ex);
-                          }
-                       }
-                       else
-                            break;
+                   if( startpos>=0 )
+                   {
+                       Highlighter hilite = jTextArea1.getHighlighter();
+                       Highlighter.HighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
+               try {
+                   hilite.addHighlight(startpos, startpos+matchedChars.elementAt(i).length(), p);
+               } catch (BadLocationException ex) {
+                   Logger.getLogger(SampleJForm.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                   }
+                   else
+                       break;
                            
                    }
-              }
+              }*/
         
                /* HighLight states for every character */               
                for(int  i = 0 ;i< matchedStates.size();i++)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Prajwal Muralidhara/Documents/GitHub/MorphoGrab/src/dependencies/poi-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Prajwal Muralidhara/Documents/GitHub/MorphoGrab/src/dependencies/itext-pdfa-5.3.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Prajwal Muralidhara/Documents/GitHub/MorphoGrab/src/dependencies/itextpdf-5.3.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Prajwal Muralidhara/Documents/GitHub/MorphoGrab/src/dependencies/pdfbox-1.7.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

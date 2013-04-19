@@ -18,6 +18,9 @@ import preprocessing.PdfParser;
  * @author prasad
  */
 public class WordConverter extends javax.swing.JDialog {
+	
+	private String fileNameBrowse = "";
+	private String dirNameBrowse = "";
 
     /**
      * Creates new form WordConverter
@@ -106,10 +109,18 @@ public class WordConverter extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-            FileDialog  dialog = new FileDialog(this, "Load Word");
-            dialog.show();
-            FileName = dialog.getDirectory() + "//" + dialog.getFile();
-            jTextField1.setText(FileName);
+            if (fileNameBrowse != "" && dirNameBrowse != "") 
+            {
+            	FileName = dirNameBrowse + "//" + fileNameBrowse;
+                jTextField1.setText(FileName);
+            }
+            else
+            {
+            	FileDialog  dialog = new FileDialog(this, "Load Word");
+            	dialog.show();
+            	FileName = dialog.getDirectory() + "//" + dialog.getFile();
+            	jTextField1.setText(FileName);
+            }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -133,6 +144,22 @@ public class WordConverter extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    private void simulateBrowseBtn (java.awt.event.ActionEvent evt)
+    {
+    	jButton1ActionPerformed(evt);
+    }
+    
+    public void setFileName (String fileName, String dirName, java.awt.event.ActionEvent evt)
+    {
+    	if (fileName != null && dirName != null ) 
+    	{
+    		this.fileNameBrowse = fileName;
+    		this.dirNameBrowse = dirName;	
+    		simulateBrowseBtn (evt);
+    	}
+    }
+    
     /**
      * @param args the command line arguments
      */
