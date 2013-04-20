@@ -600,6 +600,15 @@ public class ReLearner {
                         				}
                         			}
                         		}
+                        		
+                        		temp = curCharacter.split("\\(");
+                        		if (temp != null)
+                        		{
+                        			String temp2 = "";
+                        			temp2 = temp[0];
+                        			curCharacter = temp2;
+                        			System.out.println("Elimainated left paranthesis err");
+                        		}
                         		p.character = curCharacter;
                         		System.out.println ("Added character : "+curCharacter);
                         		Vector <String> states = new Vector<String>();
