@@ -542,7 +542,7 @@ isExistingTemplate = true;
 							else {
 								if(char_over) {
 									    
-									    if ((tokens[j].contains("“") || tokens[j].contains("(")) && (curCharacter.equalsIgnoreCase("")))
+									    if ((tokens[j].contains("“") || tokens[j].contains("(") || tokens[j].contains("/") || tokens[j].contains("–") || tokens[j].contains("-")) && (curCharacter.equalsIgnoreCase("")))
 									    {
 									    	curCharacter = tokens[j];
 									    }
@@ -575,10 +575,29 @@ isExistingTemplate = true;
 	
 						while (matcher.find()) {
 							String curre = matcher.group().trim();
-							if (curre.matches("[0-9]+"))
-								continue;
-							potentialStates.addElement(curre);
-							regexMatchedStates.add(curre);
+							int delim_index = curLine.indexOf(charStateDelimiter);
+							int parenthesis_open_ind = curLine.lastIndexOf("(");
+							int parenthesis_close_ind = curLine.lastIndexOf(")");
+							int curre_index_start = curLine.indexOf(curre);
+							int curre_index_end = curre_index_start + curre.length();
+							if (curre_index_start > 0 && delim_index > 0)
+							{
+								if (parenthesis_open_ind > 0 && parenthesis_close_ind > 0)
+								{
+									if ((parenthesis_open_ind < curre_index_start && curre_index_end < parenthesis_close_ind) || (curre.matches("[0-9]+"))) {
+										continue;
+									}
+								}
+								
+								if ((!curre.matches("[0-9]+") || !curre.matches("[0-9]+[a-z]*")) && (!charStateDelimiter.equalsIgnoreCase("."))) 
+								{
+									potentialStates.addElement(curre);
+									regexMatchedStates.add(curre);
+								}
+							}
+							
+							
+							
 						}
 	
 					}
@@ -641,6 +660,10 @@ isExistingTemplate = true;
 								String []temp_tokens = curCharacter.split("\\(");
 								if (temp_tokens != null)
 								{
+									if (temp_tokens[0].contains("("))
+									{
+										temp_tokens = temp_tokens[0].split("\\(");
+									}
 									curCharacter = temp_tokens[0];
 									System.out.println("Corrected parantesis err:"+curCharacter);
 								}

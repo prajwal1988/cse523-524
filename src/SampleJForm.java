@@ -728,9 +728,11 @@ e.printStackTrace();
                 extractedData += ( i + "." + charAndStates.elementAt(i).character + "\n");
                 String []tokens = matchedChars.elementAt(i).split("\\d\\.\\s");
                 
-                if (tokens[1] != null)
+                if (tokens != null && tokens.length >= 2) {
                 	highlightChars.add(tokens[1].toString());
 
+                }
+                	
 
                 Vector<String> st = charAndStates.elementAt(i).states;
                 for(int j=0;j<st.size();j++)
@@ -748,9 +750,10 @@ e.printStackTrace();
                for (int i = 0; i< highlightChars.size();i++)
                {
             	   int startpos = 0 ;
-                   
+                   int lastpos = 0;
             	   String matchingChar = highlightChars.get(i);
             	   startpos = jTextArea1.getText().indexOf(matchingChar);
+            	   lastpos = jTextArea1.getText().lastIndexOf(matchingChar);
                    
                    
                    if( startpos>=0 )
@@ -759,6 +762,10 @@ e.printStackTrace();
                        Highlighter.HighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
                        try {
                     	   hilite.addHighlight(startpos, startpos+highlightChars.get(i).length(), p);
+                    	   
+                    	   if (lastpos != startpos)
+                    		   hilite.addHighlight(lastpos, lastpos+highlightChars.get(i).length(), p);
+                    	   
                        } catch (BadLocationException ex) {
                     	   Logger.getLogger(SampleJForm.class.getName()).log(Level.SEVERE, null, ex);
                        }
