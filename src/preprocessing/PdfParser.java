@@ -29,7 +29,7 @@ import java.util.Vector;
 public class PdfParser {
 
       /** The resulting PDF. */
-    public static final String PDF = "TestProjects\\Peterson_Eernisse.pdf";
+    public static final String PDF = "E:/Morphograb_new/MorphoBank/cse523-524/TestProjects/Zrzavy_et_al.pdf";
     
     public static final String PDF1 = "C:/Study/523/Cont/stylometric.pdf";
     /** A possible resulting after parsing the PDF. */
@@ -178,7 +178,7 @@ public class PdfParser {
      * @throws IOException
      */
   
-    /*public static void main(String[] args) throws DocumentException, IOException {
+    public static void main(String[] args) throws DocumentException, IOException {
         PdfParser example = new PdfParser(PDF);
         //Vector<String> parsedPdf = example.parsePdf2(PDF, TEXT2,77,87);
         Vector<String> parsedPdf = example.parsePdf(29,31);
@@ -197,6 +197,6 @@ public class PdfParser {
         vectorDump(inputStream);
         //example.parsePdf2(PDF1, TEXT3,2);
         //example.extractText(PDF, TEXT3);
-    }*/
+    }
     
 }
